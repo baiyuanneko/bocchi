@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="manifest" href="manifest.json" />
+    <link rel="icon" href="./icon.png" />
+    <link rel="stylesheet" href="{{LINK_OF_BOOTSTRAP_CSS}}">
+    <title>bocchi</title>
+</head>
+
+<body>
+    <style>
+
+        body {
+            background-color: rgb(253, 248, 253);
+        }
+
+        #main_area {
+            display: flex;
+            width: 720px;
+            height: 500px;
+            text-align: center;
+            justify-content: center;
+            align-items: center;
+            background-color: rgb(235, 221, 233);
+            position: relative;
+            border: 2px dashed rgb(158, 38, 142);
+            border-radius: 12px;
+        }
+
+        #main_area_outer {
+            display: flex;
+            width: 740px;
+            height: 520px;
+            text-align: center;
+            justify-content: center;
+            align-items: center;
+            background-color: rgb(235, 221, 233);
+            position: relative;
+            border-radius: 14px;
+        }
+
+        #main_area_inner {
+            position: absolute;
+            color: rgb(102, 98, 98);
+        }
+
+        @media (max-width: 830px){
+            #main_area_outer {
+                width: 100%;
+                height: 300px;
+            }
+            #main_area {
+                width: 95%;
+                height: 280px;
+            }
+        }
+    </style>
+    <div class="container" id="app">
+        <br />
+        <div class="alert alert-danger" role="alert">
+            <h1 class="alert-heading"><img src="./icon.png" style="height: 48px; border-radius: 12px;"></img> bocchi</h1>
+            <p>这是一个现代的 OCR （光学字符识别）工具，在浏览器端运行，若模型已下载则支持离线使用（即断网后访问本工具的 URL 仍能使用，在本页面进行任意一次图像识别即可触发模型下载），支持作为 PWA 进行安装（仅在受支持的浏览器中可用）。</p>
+            <p class="mb-0">注意：<b>首次使用需要下载约 50 MB 的模型文件。</b></p>
+        </div>
+        <div id="main_area_outer">
+            <div id="main_area">
+                <div id="main_area_inner">拖放图片到此处 或 <a href="javascript:void(0)" id="selectImageBtn">选择图片</a><br /><br /> 按 Ctrl + V
+                    以识别剪贴板中的图像</div>
+            </div>
+        </div>
+
+        <br />
+        <hr />
+        <p><b><a href="https://github.com/baiyuanneko/bocchi" target="_blank">本项目的 GitHub 页面</a></b> | 本工具与《孤独摇滚》官方无关，为个人性质的研究项目。本项目的诞生离不开 <a href="https://github.com/robertknight/tesseract-wasm" target="_blank">robertknight/tesseract-wasm</a> 和 <a href="https://github.com/tesseract-ocr/tesseract" target="_blank">Tesseract</a> 这两个项目。模型来自 <a href="https://github.com/tesseract-ocr/tessdata" target="_blank">tessdata</a>。本项目名中的 bocchi 是 <b>B</b>aiyuanneko's <b>OC</b>r <b>C</b>lient <b>H</b>ighly <b>I</b>mproved 的缩写。本项目的源代码使用 LGPL 3.0 或更新版本作为许可证。本程序不含任何担保。</p>
+
+    </div>
+    <div class="modal" id="identifyResultModal" tabindex="-1">
+        <div class="modal-dialog model-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="identifyResultModalTitle">识别结果</h1>
+                </div>
+                <div class="modal-body" id="identifyResultModalBody">
+                    <div id="identifyResultModalBodyLoading" style="display: none;">
+                        <p>正在识别，请稍后。</p>
+                        <p>请勿关闭此对话框。</p>
+                    </div>
+                    <textarea id="identifyResultModalBodyResultArea" class="form-control" style="display: none;" disabled="true">
+
+                    </textarea>
+                </div>
+                <div class="modal-footer" id="identifyResultModalFooter" style="display: none;">
+                    <button type="button" class="btn">用时：<span id="identifyTimeSpent"></span></button>
+                    <button type="button" class="btn btn-primary" id="copyToClipboardBtn">复制到剪贴板</button>
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">关闭</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="downloadingModelModal" tabindex="-1">
+        <div class="modal-dialog model-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="downloadingModelModalTitle">正在下载模型文件</h1>
+                </div>
+                <div class="modal-body" id="downloadingModelModalBody">
+                    <p>OCR 识别过程完全在本地进行，因此需要下载模型文件。模型文件大小约为 50 MB，下载时间取决于您的网络速度。</p>
+                    <p>请勿关闭此对话框。</p>
+                    <p>当前进度：<span id="downloadingModelProgressText"></span></p>
+                    <div class="progress" role="progressbar">
+                        <div class="progress-bar" style="width: 0%" id="downloadingModelProgressBar"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="{{LINK_OF_BUNDLED_JS}}" type="module"></script>
+</body>
+
+</html>

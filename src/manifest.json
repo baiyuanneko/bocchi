@@ -1,0 +1,15 @@
+{
+    "name": "bocchi",
+    "start_url": ".",
+    "display": "standalone",
+    "theme_color": "#cc3366",
+    "description": "一个现代的 OCR 工具。",
+    "icons": [
+      {
+        "src": "icon.png",
+        "type": "image/png",
+        "sizes": "512x512"
+      }
+    ]
+  }
+  
